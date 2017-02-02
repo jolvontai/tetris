@@ -1,0 +1,3 @@
+C:/Users/joona/Google Drive/tetris/build/CMakeFiles/tetris.dir
+C:/Users/joona/Google Drive/tetris/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/joona/Google Drive/tetris/build/CMakeFiles/ZERO_CHECK.dir

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\joona\Google Drive\tetris\build\CMakeFiles\645f8a2ca6e52d8d432f40d70301d819\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{630AE280-5A2D-31EF-917A-4ED91A07864A}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

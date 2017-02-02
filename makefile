@@ -16,3 +16,4 @@ $(EXECUTABLE): $(OBJECTS)
 
 clean:
 	rm -f $(ROUTE)*.o
+	rm -f ohjelma

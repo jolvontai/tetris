@@ -8,4 +8,7 @@ CMakeFiles/
 CMakeCache.txt
 ohjelma
 *.sln
+Win32/
+.vs/
+tetris.dir/
 

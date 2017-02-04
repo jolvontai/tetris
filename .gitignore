@@ -1,0 +1,11 @@
+build/
+*.o
+*.exe
+CMakeFiles/
+*.vcxproj
+*.vcxproj.filters
+*.cmake
+CMakeCache.txt
+ohjelma
+*.sln
+

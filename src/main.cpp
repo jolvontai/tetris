@@ -6,29 +6,28 @@
 // C++ Headers
 #include <string>
 #include <iostream>
+
+
+
+//Game files
+#include "engine.h"
+#include "renderer.h"
 #include "game.h"
-// OpenGL / glew Headers
-//#define GL3_PROTOTYPES 1
-//#include <GL/glew.h>
 
-// SDL2 Headers
-//#include <SDL2/SDL.h>
-
-//game files
-
-
-// Our SDL_Window ( just like with SDL2 wihout OpenGL)
-//SDL_Window *mainWindow;
-
-// Our opengl context handle
-//SDL_GLContext mainContext;
-
-//bool SetOpenGLAttributes();
-//void PrintSDL_GL_Attributes();
 
 int main(int argc, char *argv[])
 {
 	Game * game = new Game();
+	Engine engine;
+	if (!engine.Init())
+	{
+		std::cout << "failed to initialize engine \n";
+		return 0;
+	}
+	if (!engine.Load(game))
+	{
+		std::cout << "failed to load game \n";
+	}
 	if (!game->Init())
 		return 0;
 	game->Update();
@@ -37,51 +36,4 @@ int main(int argc, char *argv[])
 	return 0;
 }
 
-/*void RunGame()
-{
-	bool loop = true;
 
-	while (loop)
-	{
-		SDL_Event event;
-		while (SDL_PollEvent(&event))
-		{
-			if (event.type == SDL_QUIT)
-				loop = false;
-
-			if (event.type == SDL_KEYDOWN)
-			{
-				switch (event.key.keysym.sym)
-				{
-				case SDLK_ESCAPE:
-					loop = false;
-					break;
-				case SDLK_r:
-					// Cover with red and update
-					glClearColor(1.0, 0.0, 0.0, 1.0);
-					glClear(GL_COLOR_BUFFER_BIT);
-					SDL_GL_SwapWindow(mainWindow);
-					break;
-				case SDLK_g:
-					// Cover with green and update
-					glClearColor(0.0, 1.0, 0.0, 1.0);
-					glClear(GL_COLOR_BUFFER_BIT);
-					SDL_GL_SwapWindow(mainWindow);
-					break;
-				case SDLK_b:
-					// Cover with blue and update
-					glClearColor(0.0, 0.0, 1.0, 1.0);
-					glClear(GL_COLOR_BUFFER_BIT);
-					SDL_GL_SwapWindow(mainWindow);
-					break;
-				default:
-					break;
-				}
-			}
-		}
-
-		// Swap our back buffer to the front
-		// This is the same as :
-		// 		SDL_RenderPresent(&renderer);
-	}
-}*/

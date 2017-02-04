@@ -3,10 +3,8 @@
 
 #include <string>
 #include <iostream>
-
-#define GL3_PROTOTYPES 1
-#include <GL/glew.h>
-#include <SDL2/SDL.h>
+#include <vector>
+#include "element2d.h"
 #include "game.h"
 
 class Game
@@ -23,8 +21,7 @@ public:
 	void CheckSDLError(int line);
 
 private:
-	SDL_Window * gameWindow;
-	SDL_GLContext content;
-	bool SetOpenGLAttributes();
+	std::vector<Element2D*> gameObjects;
+	
 
 };

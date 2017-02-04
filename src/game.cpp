@@ -75,6 +75,7 @@ void Game::Update()
 void Game::Render()
 {
 
+	
 }
 void Game::Start()
 {

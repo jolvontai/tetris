@@ -8,5 +8,6 @@ class Rect : public Element2D
     ~Rect();
 	void render();
     private:
+	
 
 };

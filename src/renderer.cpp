@@ -1,8 +1,74 @@
 #include "renderer.h"
+#include<iostream>
 
 Renderer::Renderer()
 {
-	this->SetOpenGLAttributes();
+	SetOpenGLAttributes();
+	vertexShaderSource = "#version 330 core\n"
+		"layout (location = 0) in vec3 position;\n"
+		"void main()\n"
+		"{\n"
+		"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
+		"}\0";
+	fragmentShaderSource = "#version 330 core\n"
+		"out vec4 color;\n"
+		"void main()\n"
+		"{\n"
+		"color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+		"}\n\0";
+	toRender = nullptr;
+}
+bool Renderer::Init()
+{
+	gameWindow = SDL_CreateWindow("testi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 512, 512, SDL_WINDOW_OPENGL);
+	if (!gameWindow)
+		return false;
+	this->sdlContent = SDL_GL_CreateContext(gameWindow);
+	glewExperimental = GL_TRUE;
+	glewInit();
+	GLint success;
+	GLchar infoLog[512];
+
+
+	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
+	glCompileShader(vertexShader);
+	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::VERTEX:COMPILATION_FAILED\n" << infoLog << std::endl;
+		return false;
+	}
+	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
+	glCompileShader(fragmentShader);
+	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::FRAGMENT:COMPILATION_FAILED\n" << infoLog << std::endl;
+		return false;
+	}
+	shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	if (!success)
+	{
+		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
+		std::cout << "ERROR::PROGRAM:LINK_FAILED\n" << infoLog << std::endl;
+		return false;
+	}
+	glUseProgram(shaderProgram);
+	glDeleteShader(fragmentShader);
+	glDeleteShader(vertexShader);
+
+
+	
+	return true;
+	
 }
 
 Renderer::~Renderer()
@@ -10,18 +76,29 @@ Renderer::~Renderer()
 }
 void Renderer::Render()
 {
-
+	glUseProgram(shaderProgram);
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+	for (int i = 0; i < toRender->size();i++)
+	{
+		toRender->at(i)->render();
+	}
+	SDL_GL_SwapWindow(gameWindow);
 }
 
 bool Renderer::CreateWindow()
 {
-	gameWindow = SDL_CreateWindow("testi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 512, 512, SDL_WINDOW_OPENGL);
-	if (!gameWindow)
-		return false;
-	this->sdlContent = SDL_GL_CreateContext(gameWindow);
+
 	SDL_GL_SetSwapInterval(1);
 	return true;
 }
+
+void Renderer::SettoRender(std::vector<Element2D*>* objects)
+{
+	this->toRender = objects;
+}
+
+
 
 bool Renderer::SetOpenGLAttributes()
 {
@@ -31,7 +108,7 @@ bool Renderer::SetOpenGLAttributes()
 
 	// 3.2 is part of the modern versions of OpenGL, but most video cards whould be able to run it
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 
 	// Turn on double buffering with a 24bit Z buffer.
 	// You may need to change this to 16 or 32 for your system

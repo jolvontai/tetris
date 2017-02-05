@@ -13,7 +13,7 @@ public:
 	Game();
 	~Game();
 
-	bool Init();
+	std::vector<Element2D*>* Init();
 	void HandleInput();
 	void Update();
 	void Render();

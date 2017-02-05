@@ -11,10 +11,20 @@ public:
 	bool Init();
 	bool Load(Game* game);
 	void Launch();
-	void Update();
 	void Render();
+	
 private:
+	void Update();
+	
+	enum gameStates {
+		RUNNING,
+		LOADING,
+		CHANGE_SCENE,
+		EXIT
+	};
 	Renderer* renderer;
+
+	gameStates currentState;
 	Game* game;
 
 };

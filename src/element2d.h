@@ -9,9 +9,16 @@ public:
 	Element2D();
 	~Element2D();
 	virtual void render();
-private:
+protected:
 	Vector2 pos;
 	Vector2 size;
+	GLfloat* vertices;
+	GLuint vertSize;
+	GLuint* indices;
+	GLuint indSize;
+	GLuint VAO;
+	GLuint VBO;
+	GLuint EBO;
 };
 class Rect : public Element2D
 {

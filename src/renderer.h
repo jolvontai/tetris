@@ -9,11 +9,17 @@ class Renderer
 public:
 	Renderer();
 	~Renderer();
+	bool Init();
 	void Render();
 	bool CreateWindow();
+	void SettoRender(std::vector<Element2D*>* objects);
+	
 private:
 	bool SetOpenGLAttributes();
+	const GLchar* vertexShaderSource;
+	const GLchar* fragmentShaderSource;
+	GLuint shaderProgram = 0;
 	SDL_GLContext sdlContent;
 	SDL_Window* gameWindow;
-	std::vector<Element2D*> toRender;
+	std::vector<Element2D*>* toRender;
 };

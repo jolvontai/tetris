@@ -6,11 +6,11 @@ Game::Game()
 
 }
 
-bool Game::Init()
+std::vector<Element2D*>* Game::Init()
 {
 	Rect* cube = new Rect();
 	gameObjects.push_back(cube);
-	return true;
+	return &gameObjects;
 }
 void Game::HandleInput()
 {

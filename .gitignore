@@ -4,11 +4,14 @@ build/
 CMakeFiles/
 *.vcxproj
 *.vcxproj.filters
+*.vcxproj*
 *.cmake
+*.VC*
 CMakeCache.txt
 ohjelma
 *.sln
 Win32/
 .vs/
 tetris.dir/
+Debug/
 

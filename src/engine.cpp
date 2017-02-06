@@ -59,4 +59,5 @@ void Engine::Update()
 Engine::~Engine()
 {
 	delete game;
+	delete renderer;
 }

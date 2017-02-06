@@ -8,8 +8,8 @@ Game::Game()
 
 std::vector<Element2D*>* Game::Init()
 {
-	Rect* cube = new Rect();
-	gameObjects.push_back(cube);
+	gameObjects.push_back(new Rect(-0.8f, 0.8f, 0.3f, 0.3f));
+	gameObjects.push_back(new Rect(0.5f, 0.5f, 0.4f, 0.4f));
 	return &gameObjects;
 }
 void Game::HandleInput()
@@ -47,4 +47,8 @@ void Game::Start()
 
 Game::~Game()
 {
+	for (int i = 0; i < gameObjects.size(); i++)
+	{
+		delete gameObjects[i];
+	}
 }

@@ -14,7 +14,7 @@ Renderer::Renderer()
 		"out vec4 color;\n"
 		"void main()\n"
 		"{\n"
-		"color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+		"color = vec4(1.0f, 0.8f, 0.2f, 1.0f);\n"
 		"}\n\0";
 	toRender = nullptr;
 }
@@ -73,6 +73,13 @@ bool Renderer::Init()
 
 Renderer::~Renderer()
 {
+	glDeleteProgram(shaderProgram);
+	toRender = nullptr;
+	delete toRender;
+	SDL_GL_DeleteContext(sdlContent);
+	SDL_DestroyWindow(gameWindow);
+	SDL_Quit();
+
 }
 void Renderer::Render()
 {

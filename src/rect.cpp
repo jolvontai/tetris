@@ -1,13 +1,15 @@
 #include "element2d.h"
 
 
-Rect::Rect()
+Rect::Rect(float posX, float posY, float sizeW, float sizeY)
 {
+	float helperX = posX - (sizeW / 2);
+	float helperY = posY - (sizeY / 2);
 	vertices = new GLfloat[12] {
-		0.5f, 0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f
+		helperX + sizeW, helperY, 0.0f,
+		helperX + sizeW, helperY + sizeY ,0.0f,
+		helperX, helperY + sizeY , 0.0f,
+		helperX, helperY, 0.0f
 	};
 	vertSize = 12;
 	indices = new GLuint[6]{
@@ -36,7 +38,13 @@ Rect::Rect()
 }
 Rect::~Rect()
 {
+	delete vertices;
+	delete indices;
+	glDeleteVertexArrays(1, &VAO);
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
 }
+
 void Rect::render()
 {
 	glBindVertexArray(VAO);

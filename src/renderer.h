@@ -16,8 +16,8 @@ public:
 	
 private:
 	bool SetOpenGLAttributes();
-	const GLchar* vertexShaderSource;
-	const GLchar* fragmentShaderSource;
+	GLchar* vertexShaderSource;
+	GLchar* fragmentShaderSource;
 	GLuint shaderProgram = 0;
 	SDL_GLContext sdlContent;
 	SDL_Window* gameWindow;

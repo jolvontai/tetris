@@ -2,7 +2,7 @@ CC=g++
 CFLAGS=-c
 LDFLAGS=-lGL -lGLEW -lSDL2 -std=c++11 -g
 ROUTE=src/
-SOURCES= $(ROUTE)game.cpp $(ROUTE)main.cpp $(ROUTE)triangle.cpp
+SOURCES= $(ROUTE)game.cpp $(ROUTE)main.cpp $(ROUTE)rect.cpp $(ROUTE)engine.cpp $(ROUTE)renderer.cpp $(ROUTE)element2d.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=ohjelma
 

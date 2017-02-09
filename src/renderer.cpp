@@ -3,18 +3,22 @@
 
 Renderer::Renderer()
 {
+	//std::cout << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 	SetOpenGLAttributes();
-	vertexShaderSource = "#version 330 core\n"
+	
+	vertexShaderSource = "#version 300 es \n"
 		"layout (location = 0) in vec3 position;\n"
 		"void main()\n"
 		"{\n"
 		"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
 		"}\0";
-	fragmentShaderSource = "#version 330 core\n"
+	fragmentShaderSource = "#version 300 es \n"
+		"precision highp float;\n"
 		"out vec4 color;\n"
+		"uniform vec4 ourColor;\n"
 		"void main()\n"
 		"{\n"
-		"color = vec4(1.0f, 0.8f, 0.2f, 1.0f);\n"
+		"color = ourColor;\n"
 		"}\n\0";
 	toRender = nullptr;
 }
@@ -104,7 +108,12 @@ void Renderer::SettoRender(std::vector<Element2D*>* objects)
 {
 	this->toRender = objects;
 }
-
+void Renderer:SetObjCol(Element2D* object, GLfloat r = 0,GLfloat g = 0,GLfloat b = 0,GLfloat a = 0)
+{
+	GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
+	glUseProgram(shaderProgram);
+	glUniform4f(vertexColorLocation, r,g,b,a);
+}
 
 
 bool Renderer::SetOpenGLAttributes()
@@ -115,7 +124,7 @@ bool Renderer::SetOpenGLAttributes()
 
 	// 3.2 is part of the modern versions of OpenGL, but most video cards whould be able to run it
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 
 	// Turn on double buffering with a 24bit Z buffer.
 	// You may need to change this to 16 or 32 for your system

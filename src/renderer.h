@@ -1,7 +1,7 @@
 #pragma once
 #include "element2d.h"
-#include<GL\glew.h>
-#include<SDL2\SDL.h>
+#include<GL/glew.h>
+#include<SDL2/SDL.h>
 #include<vector>
 
 class Renderer
@@ -16,8 +16,8 @@ public:
 	
 private:
 	bool SetOpenGLAttributes();
-	GLchar* vertexShaderSource;
-	GLchar* fragmentShaderSource;
+	const GLchar* vertexShaderSource;
+	const GLchar* fragmentShaderSource;
 	GLuint shaderProgram = 0;
 	SDL_GLContext sdlContent;
 	SDL_Window* gameWindow;

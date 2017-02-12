@@ -18,7 +18,7 @@ void Game::HandleInput()
 }
 void Game::Update()
 {
-
+	
 }
 void Game::Render()
 {

@@ -17,6 +17,7 @@ if(WIN32)
 	#link_directories(${PROJECT_SOURCE_DIR}/libs)
 endif(WIN32)
 
+
 #Property->Additional Include Directories
 include_directories(include)
 

@@ -12,10 +12,12 @@ public:
 	virtual void setSize(float w, float h);
 	virtual void setPos(float x, float y);
 	virtual void setCol(GLfloat r,GLfloat g,GLfloat b,GLfloat a);
+
 protected:
 	Vector2 pos;
 	Vector2 size;
 	GLfloat* vertices;
+	GLfloat r,g,b,a;
 	GLuint vertSize;
 	GLuint* indices;
 	GLuint indSize;

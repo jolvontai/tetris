@@ -1,8 +1,13 @@
 #pragma once
-#include "element2d.h"
+
+
 #include<GL/glew.h>
 #include<SDL2/SDL.h>
 #include<vector>
+
+
+#include"shader.h"
+#include"element2d.h"
 
 class Renderer
 {
@@ -13,12 +18,13 @@ public:
 	void Render();
 	bool CreateWindow();
 	void SettoRender(std::vector<Element2D*>* objects);
+	void SetObjCol(Element2D* object,
+		GLfloat r, GLfloat g,
+		GLfloat b, GLfloat a);
 	
 private:
 	bool SetOpenGLAttributes();
-	const GLchar* vertexShaderSource;
-	const GLchar* fragmentShaderSource;
-	GLuint shaderProgram = 0;
+	Shader* shader;
 	SDL_GLContext sdlContent;
 	SDL_Window* gameWindow;
 	std::vector<Element2D*>* toRender;

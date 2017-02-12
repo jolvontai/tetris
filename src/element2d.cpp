@@ -26,6 +26,9 @@ void Element2D::setPos(float x, float y)
 }
 void Element2D::setCol(GLfloat r,GLfloat g,GLfloat b,GLfloat a)
 {
-	
+	this->r=r;
+	this->g=g;
+	this->b=b;
+	this->a=a;
 }
 

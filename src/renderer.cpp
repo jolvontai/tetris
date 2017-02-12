@@ -3,23 +3,7 @@
 
 Renderer::Renderer()
 {
-	//std::cout << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 	SetOpenGLAttributes();
-	
-	vertexShaderSource = "#version 300 es \n"
-		"layout (location = 0) in vec3 position;\n"
-		"void main()\n"
-		"{\n"
-		"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
-		"}\0";
-	fragmentShaderSource = "#version 300 es \n"
-		"precision highp float;\n"
-		"out vec4 color;\n"
-		"uniform vec4 ourColor;\n"
-		"void main()\n"
-		"{\n"
-		"color = ourColor;\n"
-		"}\n\0";
 	toRender = nullptr;
 }
 bool Renderer::Init()
@@ -30,44 +14,8 @@ bool Renderer::Init()
 	this->sdlContent = SDL_GL_CreateContext(gameWindow);
 	glewExperimental = GL_TRUE;
 	glewInit();
-	GLint success;
-	GLchar infoLog[512];
-
-
-	GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-	glCompileShader(vertexShader);
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX:COMPILATION_FAILED\n" << infoLog << std::endl;
-		return false;
-	}
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT:COMPILATION_FAILED\n" << infoLog << std::endl;
-		return false;
-	}
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success)
-	{
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::PROGRAM:LINK_FAILED\n" << infoLog << std::endl;
-		return false;
-	}
-	glUseProgram(shaderProgram);
-	glDeleteShader(fragmentShader);
-	glDeleteShader(vertexShader);
+	shader = new Shader("/home/joonasilvonen/projects/tetris/src/shaders/shader.vs",
+		"/home/joonasilvonen/projects/tetris/src/shaders/shader.frag");
 
 
 	
@@ -77,7 +25,7 @@ bool Renderer::Init()
 
 Renderer::~Renderer()
 {
-	glDeleteProgram(shaderProgram);
+	delete shader;
 	toRender = nullptr;
 	delete toRender;
 	SDL_GL_DeleteContext(sdlContent);
@@ -87,7 +35,7 @@ Renderer::~Renderer()
 }
 void Renderer::Render()
 {
-	glUseProgram(shaderProgram);
+	shader->use();
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	for (int i = 0; i < toRender->size();i++)
@@ -108,11 +56,12 @@ void Renderer::SettoRender(std::vector<Element2D*>* objects)
 {
 	this->toRender = objects;
 }
-void Renderer:SetObjCol(Element2D* object, GLfloat r = 0,GLfloat g = 0,GLfloat b = 0,GLfloat a = 0)
+void Renderer::SetObjCol(Element2D* object, GLfloat r,GLfloat g,GLfloat b,GLfloat a)
 {
-	GLint vertexColorLocation = glGetUniformLocation(shaderProgram, "ourColor");
-	glUseProgram(shaderProgram);
-	glUniform4f(vertexColorLocation, r,g,b,a);
+	if(object == nullptr)
+	{
+		toRender->at(0)->setCol(r,g,b,a);
+	}
 }
 
 

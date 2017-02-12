@@ -42,6 +42,7 @@ void Engine::Launch()
 void Engine::Update()
 {
 	SDL_Event event;
+	GLfloat colorChange = 0;
 	while (currentState == gameStates::RUNNING)
 	{
 		while (SDL_PollEvent(&event))
@@ -49,6 +50,17 @@ void Engine::Update()
 			if (event.type == SDL_QUIT)
 			{
 				currentState = gameStates::EXIT;
+			}
+			else if(event.type == SDL_KEYDOWN)
+			{
+				switch(event.key.keysym.sym)
+				{
+					case SDLK_UP:
+					renderer->SetObjCol(nullptr,1.0f,0.0f,0.0f,1.0f);
+					break;
+					case SDLK_DOWN:
+					renderer->SetObjCol(nullptr,0.0f,1.0f,0.0f,1.0f);
+				}
 			}
 		}
 		game->Update();

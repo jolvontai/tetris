@@ -1,7 +1,7 @@
 #pragma once
 #include"renderer.h"
 #include"game.h"
-
+#include"fileloader.h"
 
 class Engine
 {
@@ -23,6 +23,7 @@ private:
 		EXIT
 	};
 	Renderer* renderer;
+	FileLoader* fLoader;
 
 	gameStates currentState;
 	Game* game;

@@ -1,20 +1,23 @@
-CC=g++ -ggdb
-CFLAGS=-c
-LDFLAGS=-lGL -lGLEW -lSDL2 -std=c++11
-ROUTE=src/
-OUTPUT=build/
-SOURCES= $(ROUTE)game.cpp $(ROUTE)main.cpp $(ROUTE)rect.cpp $(ROUTE)engine.cpp $(ROUTE)renderer.cpp $(ROUTE)element2d.cpp
-OBJECTS=$(OUTPUT *.o)
+CC=g++ 
+CFLAGS=-ggdb -c
+LDFLAGS=-lGL -lGLEW -lSDL2 -lSDL2_image -std=c++11
+SOURCEDIR=src
+SOURCES=$(wildcard $(SOURCEDIR)/*.cpp)
+BUILDDIR=build
+
+OBJECTS=$(patsubst $(SOURCEDIR)/%.cpp,$(BUILDDIR)/%.o,$(SOURCES))
 EXECUTABLE=ohjelma
 
-all: $(SOURCES) $(EXECUTABLE)
+all: dir $(BUILDDIR)/$(EXECUTABLE)
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+dir:
+	if test -d $(BUILDDIR); then echo "folder exists skipping creating"; else mkdir -p $(BUILDDIR); fi
 
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $(OUTPUT)$@
+$(BUILDDIR)/$(EXECUTABLE): $(OBJECTS)
+	$(CC) $^ $(LDFLAGS) -o $@
+
+$(OBJECTS): $(BUILDDIR)/%.o : $(SOURCEDIR)/%.cpp
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
-	rm -f build/*.o
-	rm -f build/ohjelma
+	rm -f $(BUILDDIR)/*o $(BUILDDIR)/$(EXECUTABLE)

@@ -16,6 +16,13 @@ Rect::Rect(float posX, float posY, float sizeW, float sizeY)
 		0,1,3,
 		1,2,3
 	};
+	texCoords = new GLfloat[8]{
+		0.0f, 0.0f,
+		1.0f, 0.0f,
+		1.0f, 1.0f,
+		0.0f, 1.0f
+	};
+
 	indSize = 6;
 
 	glGenVertexArrays(1, &VAO);

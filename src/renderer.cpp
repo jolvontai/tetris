@@ -8,17 +8,14 @@ Renderer::Renderer()
 }
 bool Renderer::Init()
 {
-	gameWindow = SDL_CreateWindow("testi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 512, 512, SDL_WINDOW_OPENGL);
+	gameWindow = SDL_CreateWindow("testi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 1024, SDL_WINDOW_OPENGL);
 	if (!gameWindow)
 		return false;
 	this->sdlContent = SDL_GL_CreateContext(gameWindow);
 	glewExperimental = GL_TRUE;
 	glewInit();
-	shader = new Shader("/home/joonasilvonen/projects/tetris/src/shaders/shader.vs",
-		"/home/joonasilvonen/projects/tetris/src/shaders/shader.frag");
-
-
-	
+	shader = new Shader("E:/projects/tetris/src/shaders/shader.vs",
+		"E:/projects/tetris/src/shaders/shader.frag");
 	return true;
 	
 }
@@ -35,11 +32,13 @@ Renderer::~Renderer()
 }
 void Renderer::Render()
 {
-	shader->use();
+	
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+	shader->use();
 	for (int i = 0; i < toRender->size();i++)
 	{
+
 		toRender->at(i)->render();
 	}
 	SDL_GL_SwapWindow(gameWindow);

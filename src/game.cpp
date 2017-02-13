@@ -8,8 +8,7 @@ Game::Game()
 
 std::vector<Element2D*>* Game::Init()
 {
-	gameObjects.push_back(new Rect(-0.8f, 0.8f, 0.3f, 0.3f));
-	gameObjects.push_back(new Rect(0.5f, 0.5f, 0.4f, 0.4f));
+	gameObjects.push_back(new Rect(-0.8f, 0.8f, 0.3f, 0.3f,1));
 	return &gameObjects;
 }
 void Game::HandleInput()

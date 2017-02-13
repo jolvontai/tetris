@@ -11,8 +11,8 @@ class FileLoader
 {
 public:
     FileLoader();
-    GLuint* GetTexture(std::string texName);
+    GLuint GetTexture(std::string texName);
 private:
-    GLuint* LoadImg(std::string texName);
-    std::map<std::string,GLuint*> textures;
+    bool LoadImg(std::string texName);
+    std::map<std::string,GLuint> textures;
 };

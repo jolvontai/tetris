@@ -13,11 +13,12 @@ bool Engine::Init()
 		std::cout << "Failed to init SDL\n";
 		return false;
 	}
-	fLoader = new FileLoader();
+	
 	if (!renderer->Init())
 	{
 		return false;
 	}
+	fLoader = new FileLoader();
 	renderer->CreateWindow();
 	currentState = gameStates::LOADING;
 	return true;
@@ -26,7 +27,7 @@ bool Engine::Init()
 bool Engine::Load(Game* game)
 {
 	this->game = game;
-	GLuint * temp = this->fLoader->GetTexture("wall.jpg");
+	GLuint temp = this->fLoader->GetTexture("wall.jpg");
 	std::vector<Element2D*>* objects = game->Init();
 	if (objects->size() == 0)
 	{

@@ -27,12 +27,13 @@ protected:
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;
+	GLuint tID;
 };
 class Rect : public Element2D
 {
 public:
 	//Rect();
-	Rect(float posX, float posY, float sizeW, float sizeY);
+	Rect(float posX, float posY, float sizeW, float sizeY, GLuint tID);
 	~Rect();
 	void render();
 private:

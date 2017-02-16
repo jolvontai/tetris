@@ -2,6 +2,7 @@
 #include"renderer.h"
 #include"game.h"
 #include"fileloader.h"
+#include"math.hpp"
 
 class Engine
 {

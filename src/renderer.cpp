@@ -1,6 +1,10 @@
 #include "renderer.h"
 #include<iostream>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 Renderer::Renderer()
 {
 	SetOpenGLAttributes();
@@ -14,8 +18,8 @@ bool Renderer::Init()
 	this->sdlContent = SDL_GL_CreateContext(gameWindow);
 	glewExperimental = GL_TRUE;
 	glewInit();
-	shader = new Shader("E:/projects/tetris/src/shaders/shader.vs",
-		"E:/projects/tetris/src/shaders/shader.frag");
+	shader = new Shader("src/shaders/shader.vs",
+		"src/shaders/shader.frag");
 	return true;
 	
 }
@@ -38,7 +42,8 @@ void Renderer::Render()
 	shader->use();
 	for (int i = 0; i < toRender->size();i++)
 	{
-
+		GLuint transformLoc = glGetUniformLocation(shader->program, "transform");
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, toRender->at(i)->transform.trans->array);
 		toRender->at(i)->render();
 	}
 	SDL_GL_SwapWindow(gameWindow);

@@ -1,7 +1,6 @@
 #pragma once
 #include<GL/glew.h>
-#include"helper_classes.h"
-
+#include"math.hpp"
 
 
 class Element2D
@@ -13,17 +12,17 @@ public:
 	virtual void setSize(float w, float h);
 	virtual void setPos(float x, float y);
 	virtual void setCol(GLfloat r,GLfloat g,GLfloat b,GLfloat a);
-
+	Transform transform;
 protected:
-	Vector2 pos;
 	Vector2 size;
+	Vector2 pos;
 	GLfloat* vertices;
 	GLfloat r,g,b,a;
 	GLfloat* texCoords;
 	GLuint vertSize;
 	GLuint* indices;
 	GLuint indSize;
-
+	
 	GLuint VAO;
 	GLuint VBO;
 	GLuint EBO;

@@ -12,7 +12,7 @@ Renderer::Renderer()
 }
 bool Renderer::Init()
 {
-	gameWindow = SDL_CreateWindow("testi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 1024, SDL_WINDOW_OPENGL);
+	gameWindow = SDL_CreateWindow("testi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 512, 512, SDL_WINDOW_OPENGL);
 	if (!gameWindow)
 		return false;
 	this->sdlContent = SDL_GL_CreateContext(gameWindow);
@@ -42,8 +42,10 @@ void Renderer::Render()
 	shader->use();
 	for (int i = 0; i < toRender->size();i++)
 	{
+		toRender->at(i)->transform.rotation += 0.5f;
+		Vector2 temp = toRender->at(i)->transform.GetScale();
 		GLuint transformLoc = glGetUniformLocation(shader->program, "transform");
-		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, toRender->at(i)->transform.trans->array);
+		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, toRender->at(i)->transform.GetTransformation());
 		toRender->at(i)->render();
 	}
 	SDL_GL_SwapWindow(gameWindow);

@@ -2,7 +2,7 @@
 /*#include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>*/
-#include<cmath>
+#include<math.h>
 
 #define PI 3.14159265
 
@@ -18,15 +18,24 @@ public:
 	{
 		x += other.x;
 		y += other.y;
+		return *this;
 	}
 	Vector2& operator-(Vector2 other)
 	{
 		x -= other.x;
 		y -= other.y;
+		return *this;
 	}
 	Vector2& operator=(float other)
 	{
 		x = y = other;
+		return *this;
+	}
+	Vector2& operator+=(Vector2 other)
+	{
+		x += other.x;
+		y += other.y;
+		return *this;
 	}
 };
 union Mat4{
@@ -48,32 +57,94 @@ union Mat4{
 		float d[4];
 	}row;
 };
+union Mat2 {
+	Mat2() {
+		for(int i = 0; i < 4;i++)
+			array[i] = 0;
+	}
+	float array[4];
+	struct {
+		float a1, a2;
+		float b1, b2;
+
+	}named;
+};
 
 
 class Transform
 {
+private:
+	Vector2 scale;
+	Vector2 translation;
+	float lastR;
+	Mat2 rotM;
+	Mat4* transformation;
 public:
-	Mat4* trans = new Mat4();
-	Transform() {
-		format();
-		scale = 1;
-	}
+	float rotation;
 
-	void format() {
-		trans->named.a1 = 1.0f;
-		trans->named.b2 = 1.0f;
-		trans->named.c3 = 1.0f;
-		trans->named.d4 = 1.0f;
+	Transform()
+	{
+		transformation = new Mat4();
+		scale = 1;
+		translation = 0;
+		lastR = rotation = 0;
+		Format();
+		rotM.array[0] = 1;
+		rotM.array[3] = 1;
 	}
-	void rotate(float degX, Vector2 point) {
-		int tmp = PI;
-		double temp = cos(1);
-		trans->named.a1 = cos(1);
-		trans->named.a2 = -sin(90);
-		trans->named.b1 = sin(90);
-		trans->named.b2 = cos(90);
+	const float* GetTransformation()
+	{
+		if(lastR != rotation)
+			UpdateIdentity();
+		return this->transformation->array;
+	}
+	void Translate(Vector2 pos)
+	{
+		transformation->named.a4 = pos.x;
+		transformation->named.b4 = pos.y;
+	}
+	void Scale(Vector2 size)
+	{
+		scale.x = size.x;
+		scale.y = size.y;
+		UpdateIdentity();
+	}
+	void Scale(float size)
+	{
+		scale = size;
+		UpdateIdentity();
+	}
+	Vector2 GetScale() { return this->scale;}
+	void Rotate(float degX/*, Vector2 point*/)
+	{
+		rotation += degX;
+		ValD(rotation);	
+		lastR = rotation;
+		UpdateIdentity();
+	}
+	void Format() 
+	{
+		transformation->named.a1 = 1.0f;
+		transformation->named.a2 = 0.0f;
+		transformation->named.b1 = 0.0f;
+		transformation->named.b2 = 1.0f;
+		transformation->named.c3 = 1.0f;
+		transformation->named.d4 = 1.0f;
 	}
 	
 private:
-	Vector2 scale;
+	void UpdateIdentity()
+	{
+		transformation->named.a1 = cos(rotation * (PI / 180)) + scale.x;
+		transformation->named.a2 = -sin(rotation * (PI / 180));
+		transformation->named.b1 = sin(rotation * (PI / 180));
+		transformation->named.b2 = cos(rotation * (PI / 180)) + scale.y;
+	}
+
+
+	void ValD(float& deg)
+	{
+			int helper = deg / 360;
+			deg -= helper * 360;		
+	}
 };

@@ -12,7 +12,7 @@ Rect::Rect(float posX, float posY, float sizeW, float sizeY,GLuint tID)
 		helperX, helperY + sizeY , 0.0f,		0.0f, 0.0f, 1.0f,	0.0f, 0.0f,
 		helperX, helperY, 0.0f,					1.0f, 1.0f, 0.0f,	0.0f, 1.0f
 	};
-	transform.format();
+	transform.Format();
 	vertSize = 32;
 	indices = new GLuint[6]{
 		0,1,3,

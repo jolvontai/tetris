@@ -9,10 +9,7 @@ Game::Game()
 
 std::vector<Element2D*>* Game::Init()
 {
-	gameObjects.push_back(new Rect(-0.8f, 0.8f, 0.3f, 0.3f,1));
 	gameObjects.push_back(new Rect(0.0f, 0.0f, 0.2f, 0.2f,1));
-
-	gameObjects.back()->transform.rotate(90.0f,Vector2(0.0f,0.0f));
 	return &gameObjects;
 }
 void Game::HandleInput()

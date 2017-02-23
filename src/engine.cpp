@@ -1,4 +1,3 @@
-#pragma once
 #include "engine.h"
 
 Engine::Engine()
@@ -20,6 +19,7 @@ bool Engine::Init()
 	}
 	fLoader = new FileLoader();
 	renderer->CreateWindow();
+	this->fLoader->GetTexture("wall.jpg");
 	currentState = gameStates::LOADING;
 	return true;
 
@@ -27,7 +27,7 @@ bool Engine::Init()
 bool Engine::Load(Game* game)
 {
 	this->game = game;
-	GLuint temp = this->fLoader->GetTexture("wall.jpg");
+
 	std::vector<Element2D*>* objects = game->Init();
 	if (objects->size() == 0)
 	{
@@ -45,9 +45,9 @@ void Engine::Launch()
 void Engine::Update()
 {
 	SDL_Event event;
-	GLfloat colorChange = 0;
 	while (currentState == gameStates::RUNNING)
 	{
+		inputManager.PollInput();
 		while (SDL_PollEvent(&event))
 		{
 			if (event.type == SDL_QUIT)

@@ -1,5 +1,5 @@
 CC=g++ 
-CFLAGS=-ggdb -c
+CFLAGS=-ggdb -c -Wall -pedantic
 LDFLAGS=-lGL -lGLEW -lSDL2 -lSDL2_image -std=c++11
 SOURCEDIR=src
 SOURCES=$(wildcard $(SOURCEDIR)/*.cpp)

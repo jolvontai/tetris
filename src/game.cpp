@@ -47,7 +47,7 @@ void Game::Start()
 
 Game::~Game()
 {
-	for (int i = 0; i < gameObjects.size(); i++)
+	for (size_t i = 0; i < gameObjects.size(); i++)
 	{
 		delete gameObjects[i];
 	}

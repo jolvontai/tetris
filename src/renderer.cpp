@@ -40,10 +40,8 @@ void Renderer::Render()
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	shader->use();
-	for (int i = 0; i < toRender->size();i++)
+	for (size_t i = 0; i < toRender->size();i++)
 	{
-		toRender->at(i)->transform.rotation += 0.5f;
-		Vector2 temp = toRender->at(i)->transform.GetScale();
 		GLuint transformLoc = glGetUniformLocation(shader->program, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, toRender->at(i)->transform.GetTransformation());
 		toRender->at(i)->render();

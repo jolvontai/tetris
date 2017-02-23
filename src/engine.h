@@ -3,6 +3,7 @@
 #include"game.h"
 #include"fileloader.h"
 #include"math.hpp"
+#include"inputmanager.h"
 
 class Engine
 {
@@ -25,6 +26,7 @@ private:
 	};
 	Renderer* renderer;
 	FileLoader* fLoader;
+	InputManager inputManager;
 
 	gameStates currentState;
 	Game* game;

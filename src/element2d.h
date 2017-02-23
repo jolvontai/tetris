@@ -7,7 +7,7 @@ class Element2D
 {
 public:
 	Element2D();
-	~Element2D();
+	virtual ~Element2D();
 	virtual void render();
 	virtual void setSize(float w, float h);
 	virtual void setPos(float x, float y);

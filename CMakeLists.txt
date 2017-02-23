@@ -27,13 +27,8 @@ add_executable(tetris ${SOURCES})
 
 
 if(WIN32)
-
-	
-	
-	
 	#Property->Linker->Input->Additional Dependencies
 	target_link_libraries(tetris ${LIBS})
-
 endif(WIN32)
 
 

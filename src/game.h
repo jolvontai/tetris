@@ -1,11 +1,10 @@
 #pragma once
 
-
 #include <string>
 #include <iostream>
 #include <vector>
 #include "element2d.h"
-#include "game.h"
+#include"interface.h"
 
 class Game
 {
@@ -19,6 +18,7 @@ public:
 	void Render();
 	void Start();
 	void CheckSDLError(int line);
+	void SetEngine(Engine& engine);
 
 private:
 	std::vector<Element2D*> gameObjects;

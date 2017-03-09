@@ -7,6 +7,10 @@ class Rect : public Element2D
     Rect();
     ~Rect();
 	void render();
+    void move()
+    {
+        this->transform.Scale(1.5);
+    }
     private:
 	
 

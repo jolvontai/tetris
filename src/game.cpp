@@ -1,15 +1,20 @@
-#include "game.h"
+#include"game.h"
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
+
 Game::Game()
 {
-
 }
 
 std::vector<Element2D*>* Game::Init()
 {
 	gameObjects.push_back(new Rect(0.0f, 0.0f, 0.2f, 0.2f,1));
+	std::function<void()> f = std::bind(&Rect::Biggen, (Rect*)gameObjects[0]);
+	If::Register(SDLK_DOWN,std::bind(&Rect::Smallen, (Rect*)gameObjects[0]));
+	If::Register(SDLK_UP,f);
+	If::Register(SDLK_LEFT,std::bind(&Rect::RotateL, (Rect*)gameObjects[0]));
+	If::Register(SDLK_RIGHT,std::bind(&Rect::MoveR, (Rect*)gameObjects[0]));
 	return &gameObjects;
 }
 void Game::HandleInput()

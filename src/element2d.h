@@ -35,6 +35,24 @@ public:
 	Rect(float posX, float posY, float sizeW, float sizeY, GLuint tID);
 	~Rect();
 	void render();
+	float posX = 0;
+	void Biggen()
+	{
+		this->transform.Scale(1.5);
+	}
+	void Smallen()
+	{
+		this->transform.Scale(1.0f);
+	}
+	void RotateL()
+	{
+		this->transform.Rotate(-1.0f);
+	}
+	void MoveR()
+	{
+		this->transform.Translate(Vector2(posX,0));
+		posX += 0.1f;
+	}
 private:
 
 	

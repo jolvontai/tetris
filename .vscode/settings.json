@@ -13,6 +13,11 @@
         "cwctype": "cpp",
         "typeinfo": "cpp",
         "cstdio": "cpp",
-        "cstdlib": "cpp"
+        "cstdlib": "cpp",
+        "cstddef": "cpp",
+        "functional": "cpp",
+        "iostream": "cpp",
+        "*h*hfunctional": "cpp",
+        "cmath": "cpp"
     }
 }

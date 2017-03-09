@@ -1,10 +1,13 @@
 #pragma once
+
 #include"renderer.h"
-#include"game.h"
+
 #include"fileloader.h"
 #include"math.hpp"
 #include"inputmanager.h"
 
+
+class Game;
 class Engine
 {
 public:
@@ -14,6 +17,7 @@ public:
 	bool Load(Game* game);
 	void Launch();
 	void Render();
+	InputManager inputManager;
 	
 private:
 	void Update();
@@ -26,9 +30,11 @@ private:
 	};
 	Renderer* renderer;
 	FileLoader* fLoader;
-	InputManager inputManager;
+	
 
 	gameStates currentState;
 	Game* game;
 
 };
+#include"game.h"
+#include"interface.h"

@@ -102,6 +102,7 @@ public:
 	{
 		transformation->named.a4 = pos.x;
 		transformation->named.b4 = pos.y;
+		UpdateIdentity();
 	}
 	void Scale(Vector2 size)
 	{
@@ -135,16 +136,18 @@ public:
 private:
 	void UpdateIdentity()
 	{
-		transformation->named.a1 = cos(rotation * (PI / 180)) + scale.x;
-		transformation->named.a2 = -sin(rotation * (PI / 180));
-		transformation->named.b1 = sin(rotation * (PI / 180));
-		transformation->named.b2 = cos(rotation * (PI / 180)) + scale.y;
+		transformation->named.a1 = cos(rotation * (PI / 180)) * scale.x;
+		transformation->named.a2 = -sin(rotation * (PI / 180)) * scale.y;
+		transformation->named.b1 = sin(rotation * (PI / 180)) * scale.x;
+		transformation->named.b2 = cos(rotation * (PI / 180)) * scale.y;
 	}
 
 
 	void ValD(float& deg)
 	{
 			int helper = deg / 360;
-			deg -= helper * 360;		
+			deg -= helper * 360;
+			if(deg < 0)
+				deg = 360+deg;		
 	}
 };

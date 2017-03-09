@@ -3,6 +3,7 @@
 Engine::Engine()
 {
 	renderer = new Renderer();
+	If::SetEngine(*this);
 }
 bool Engine::Init()
 {

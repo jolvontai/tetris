@@ -9,7 +9,7 @@ Game::Game()
 
 std::vector<Element2D*>* Game::Init()
 {
-	gameObjects.push_back(new Rect(0.0f, 0.0f, 0.2f, 0.2f,1));
+	gameObjects.push_back(new Rect(0.5f, 0.5f, 100.0f, 100.0f,1));
 	std::function<void()> f = std::bind(&Rect::Biggen, (Rect*)gameObjects[0]);
 	If::Register(SDLK_DOWN,std::bind(&Rect::Smallen, (Rect*)gameObjects[0]));
 	If::Register(SDLK_UP,f);

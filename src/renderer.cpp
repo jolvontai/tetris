@@ -1,9 +1,6 @@
 #include "renderer.h"
 #include<iostream>
 
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 Renderer::Renderer()
 {
@@ -12,7 +9,10 @@ Renderer::Renderer()
 }
 bool Renderer::Init()
 {
-	gameWindow = SDL_CreateWindow("testi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 512, 512, SDL_WINDOW_OPENGL);
+	this->scrSize.x = 512;
+	this->scrSize.y = 512;
+	camera.resize(scrSize.x, scrSize.y);
+	gameWindow = SDL_CreateWindow("testi", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, scrSize.x, scrSize.y, SDL_WINDOW_OPENGL);
 	if (!gameWindow)
 		return false;
 	this->sdlContent = SDL_GL_CreateContext(gameWindow);
@@ -40,10 +40,13 @@ void Renderer::Render()
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	shader->use();
+	GLuint viewLoc = glGetUniformLocation(shader->program, "view");
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, this->camera.array);
 	for (size_t i = 0; i < toRender->size();i++)
 	{
 		GLuint transformLoc = glGetUniformLocation(shader->program, "transform");
 		glUniformMatrix4fv(transformLoc, 1, GL_FALSE, toRender->at(i)->transform.GetTransformation());
+
 		toRender->at(i)->render();
 	}
 	SDL_GL_SwapWindow(gameWindow);
@@ -51,7 +54,7 @@ void Renderer::Render()
 
 bool Renderer::CreateWindow()
 {
-
+	
 	SDL_GL_SetSwapInterval(1);
 	return true;
 }

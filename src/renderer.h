@@ -28,4 +28,6 @@ private:
 	SDL_GLContext sdlContent;
 	SDL_Window* gameWindow;
 	std::vector<Element2D*>* toRender;
+	Vec2 scrSize;
+	Ortho camera;
 };

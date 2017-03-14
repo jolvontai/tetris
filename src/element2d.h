@@ -14,8 +14,8 @@ public:
 	virtual void setCol(GLfloat r,GLfloat g,GLfloat b,GLfloat a);
 	Transform transform;
 protected:
-	Vector2 size;
-	Vector2 pos;
+	Vec2 size;
+	Vec2 pos;
 	GLfloat* vertices;
 	GLfloat r,g,b,a;
 	GLfloat* texCoords;
@@ -36,6 +36,7 @@ public:
 	~Rect();
 	void render();
 	float posX = 0;
+	float posY = 0;
 	void Biggen()
 	{
 		this->transform.Scale(1.5);
@@ -50,8 +51,8 @@ public:
 	}
 	void MoveR()
 	{
-		this->transform.Translate(Vector2(posX,0));
-		posX += 0.1f;
+		this->transform.Translate(Vec2(posX,posY));
+		posX += 5.0f;
 	}
 private:
 

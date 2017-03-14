@@ -1,37 +1,37 @@
 #pragma once
-/*#include<glm/glm.hpp>
+#include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
-#include<glm/gtc/type_ptr.hpp>*/
+#include<glm/gtc/type_ptr.hpp>
 #include<math.h>
 
 #define PI 3.14159265
 
-class Vector2
+class Vec2
 {
 public:
 	float x;
 	float y;
-	Vector2(float x, float y) : x(x), y(y) {};
-	Vector2() { x = 0; y = 0; }
+	Vec2(float x, float y) : x(x), y(y) {};
+	Vec2() { x = 0; y = 0; }
 
-	Vector2& operator+(Vector2 other)
+	Vec2& operator+(Vec2 other)
 	{
 		x += other.x;
 		y += other.y;
 		return *this;
 	}
-	Vector2& operator-(Vector2 other)
+	Vec2& operator-(Vec2 other)
 	{
 		x -= other.x;
 		y -= other.y;
 		return *this;
 	}
-	Vector2& operator=(float other)
+	Vec2& operator=(float other)
 	{
 		x = y = other;
 		return *this;
 	}
-	Vector2& operator+=(Vector2 other)
+	Vec2& operator+=(Vec2 other)
 	{
 		x += other.x;
 		y += other.y;
@@ -45,10 +45,10 @@ union Mat4{
 	}
 	float array[16];
 	struct {
-		float a1, a2, a3, a4;
-		float b1, b2, b3, b4;
-		float c1, c2, c3, c4;
-		float d1, d2, d3, d4;
+		float a1, b1, c1, d1;
+		float a2, b2, c2, d2;
+		float a3, b3, c3, d3;
+		float a4, b4, c4, d4;
 	}named;
 	struct {
 		float a[4];
@@ -56,6 +56,29 @@ union Mat4{
 		float c[4];
 		float d[4];
 	}row;
+};
+struct Ortho{
+	Ortho() 
+	{
+		for(int i = 0; i < 16;i++)
+			array[i] = 0;
+		array[10] = 1;
+		array[12] = -1;
+		array[13] = -1;
+		array[15] = 1;
+	}
+	void resize(float screenX, float screenY)
+	{
+		float factor;
+		if(screenX < screenY)
+			factor = 2 / screenX;
+		else
+			factor = 2 / screenY;
+		array[0] = factor;
+		array[5] = factor;
+
+	}
+	float array[16] = {};	
 };
 union Mat2 {
 	Mat2() {
@@ -74,8 +97,9 @@ union Mat2 {
 class Transform
 {
 private:
-	Vector2 scale;
-	Vector2 translation;
+	Vec2 scale;
+	Vec2 translation;
+	Vec2 pos;
 	float lastR;
 	Mat2 rotM;
 	Mat4* transformation;
@@ -98,16 +122,16 @@ public:
 			UpdateIdentity();
 		return this->transformation->array;
 	}
-	void Translate(Vector2 pos)
+	void Translate(Vec2 pos)
 	{
-		transformation->named.a4 = pos.x;
-		transformation->named.b4 = pos.y;
+		this->pos = pos;
 		UpdateIdentity();
 	}
-	void Scale(Vector2 size)
+	void Scale(Vec2 size)
 	{
 		scale.x = size.x;
 		scale.y = size.y;
+		
 		UpdateIdentity();
 	}
 	void Scale(float size)
@@ -115,7 +139,7 @@ public:
 		scale = size;
 		UpdateIdentity();
 	}
-	Vector2 GetScale() { return this->scale;}
+	Vec2 GetScale() { return this->scale;}
 	void Rotate(float degX/*, Vector2 point*/)
 	{
 		rotation += degX;
@@ -136,10 +160,31 @@ public:
 private:
 	void UpdateIdentity()
 	{
-		transformation->named.a1 = cos(rotation * (PI / 180)) * scale.x;
-		transformation->named.a2 = -sin(rotation * (PI / 180)) * scale.y;
-		transformation->named.b1 = sin(rotation * (PI / 180)) * scale.x;
-		transformation->named.b2 = cos(rotation * (PI / 180)) * scale.y;
+		Format();
+		UpdateTranslation();
+		UpdateRotation();
+		UpdateScale();
+		
+		
+	}
+	void UpdateTranslation()
+	{
+		transformation->named.a4 = pos.x;
+		transformation->named.b4 = pos.y;
+	}
+	void UpdateScale()
+	{
+		transformation->named.a1 *= scale.x;
+		transformation->named.a2 *= scale.y;
+		transformation->named.b1 *= scale.x;
+		transformation->named.b2 *= scale.y;
+	}
+	void UpdateRotation()
+	{
+		transformation->named.a1 *= cos(rotation * (PI / 180));
+		transformation->named.a2 = sin(rotation * (PI / 180));
+		transformation->named.b1 = -sin(rotation * (PI / 180));
+		transformation->named.b2 *= cos(rotation * (PI / 180));
 	}
 
 
